@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.mapper.AdoptMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.cyj.pojo.Adopt">
+                    <id column="id" property="id"/>
+                    <result column="userId" property="userId"/>
+                    <result column="categoriesId" property="categoriesId"/>
+                    <result column="name" property="name"/>
+                    <result column="size" property="size"/>
+                    <result column="age" property="age"/>
+                    <result column="sex" property="sex"/>
+                    <result column="status" property="status"/>
+                    <result column="create_time" property="createTime"/>
+                    <result column="update_time" property="updateTime"/>
+                    <result column="description" property="description"/>
+                    <result column="requirement" property="requirement"/>
+                    <result column="deleted" property="deleted"/>
+            <result column="address" property="address"></result>
+            <result column="nickname" property="nickname"></result>
+            <result column="tel" property="tel"></result>
+            <result column="mark" property="mark"></result>
+           <result column="images" property="images"></result>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+            id, userId, categoriesId, name, size, age, sex, status, create_time, update_time, description, requirement, deleted,mark,images
+        </sql>
+
+    <select id="queryAdoptsLists" parameterType="com.cyj.dto.AdoptQueryDto" resultType="com.cyj.dto.AdoptDto">
+        SELECT
+        `adopt`.`id`,`adopt`.`address`,`adopt`.`age`,`adopt`.`create_time`,`adopt`.`description`,`adopt`.`name` as name,`adopt`.`nickname`,`adopt`.`requirement`,`adopt`.`sex`,
+        `adopt`.`size`,`adopt`.`status`,`adopt`.`tel`, userId
+
+        FROM `adopt`
+
+        <where>
+
+             `adopt`.`deleted`=#{deleted}
+            <if test="size!=null ">
+                and size=#{size}
+            </if>
+            <if test="age!=null ">
+                and age=#{age}
+            </if>
+            <if test="sex!=null ">
+                and sex=#{sex}
+            </if>
+            <if test="keyword!=null ">
+                and name like #{keyword}
+            </if>
+            <if test="userId!=null ">
+                and userId=#{userId}
+            </if>
+            <if test="id!=null ">
+                and id=#{id}
+            </if>
+            <if test="userId!=null ">
+                and userId=#{userId}
+            </if>
+            <if test="categoriesId!=null ">
+                and categoriesId=#{categoriesId}
+            </if>
+<!--            <if test="keyword!=null ">-->
+<!--                and address like #{keyword}-->
+<!--            </if>-->
+<!--            <if test="keyword!=null ">-->
+<!--                and name like #{keyword}-->
+<!--            </if>-->
+
+        </where>
+        ORDER BY id  DESC
+        limit #{page},#{pagesize}
+    </select>
+    <select id="queryByMark" parameterType="string" resultType="com.cyj.pojo.Adopt">
+        SELECT * FROM `adopt` WHERE `adopt`.`mark`=#{mark}
+    </select>
+    <select id="queryMyLike" resultType="com.cyj.dto.AdoptDto" parameterType="string">
+        SELECT * FROM `adopt` WHERE id =#{id}
+    </select>
+</mapper>

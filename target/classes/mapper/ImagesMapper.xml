@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.mapper.ImagesMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.cyj.pojo.Images">
+                    <id column="id" property="id"/>
+                    <result column="workId" property="workId"/>
+                    <result column="path" property="path"/>
+                    <result column="module" property="module"></result>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+            id, workId, path, module
+        </sql>
+        <select id="queryImagesPath" resultType="string" parameterType="string">
+            SELECT path FROM `images` WHERE `images`.`workId`=#{workId}
+        </select>
+</mapper>

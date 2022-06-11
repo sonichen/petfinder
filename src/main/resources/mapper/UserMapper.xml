@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cyj.pojo.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel"/>
+        <result column="email" property="email"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="introduce" property="introduce"/>
+        <result column="avatar" property="avatar"/>
+        <result column="idcard" property="idcard"></result>
+        <result column="location" property="location"></result>
+        <result column="role" property="role"></result>
+        <result column="deleted" property="deleted"></result>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, tel, email, create_time, update_time, introduce,avatar,idcard,location,role
+    </sql>
+<!--    通过手机号码查询用户是否存在-->
+    <select id="queryUserByTel" parameterType="string" resultType="com.cyj.pojo.User">
+        SELECT * FROM `user`
+        WHERE `user`.`tel`=#{tel}
+    </select>
+<!--    校验密码-->
+    <select id="checkPwd" parameterType="long" resultType="string">
+        SELECT PASSWORD FROM USER WHERE `user`.`id`=#{id}
+    </select>
+<!--    放出黑名单-->
+    <update id="changeToNormal" parameterType="long">
+        UPDATE `user`
+        SET `user`.`deleted`=0
+        WHERE `user`.`id`=#{userId};
+    </update>
+</mapper>
